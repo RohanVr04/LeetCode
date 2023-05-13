@@ -1,0 +1,36 @@
+class Solution {
+    #define ll long
+public:
+    ll mod = 1e9+7;
+
+    //RECURSION+MEMOIZATION
+    ll count(int low,int high,int zero,int one,ll length,ll* dp){
+        if(length>high){
+            return 0;
+        }
+        
+        if(dp[length]!=-1){
+            return dp[length];
+        }
+
+        ll ans = 0;
+        if(low<=length and length<=high){
+            ans = 1;
+        }
+        ans+= count(low,high,zero,one,length+zero,dp)%mod;
+        ans = (ans%mod + count(low,high,zero,one,length+one,dp)%mod)%mod;
+        dp[length] = ans;
+        return ans;
+
+    }
+
+    int countGoodStrings(int low, int high, int zero, int one) {
+
+        ll* dp = new ll[high+1];
+        for(int i=0;i<=high;i++){
+            dp[i] = -1;
+        }
+
+        return count(low,high,zero,one,0,dp);
+    }
+};

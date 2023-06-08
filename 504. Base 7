@@ -1,0 +1,20 @@
+class Solution {
+public:
+    string convertToBase7(int num) {
+        int temp = abs(num);
+        int ans = 0;
+        int i = 1;
+        while(temp>0){
+            int r = temp%7;
+            ans+=r*i;
+            i = i*10;
+            temp = temp/7;
+        }
+        if(num<0){
+            return "-"+to_string(ans);
+        }
+        else{
+            return to_string(ans);
+        }
+    }
+};

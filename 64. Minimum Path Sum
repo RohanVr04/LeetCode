@@ -1,0 +1,31 @@
+class Solution {
+public:
+
+    int helper(int i,int j,int m,int n,vector<vector<int>>& grid,int**a){
+        if(i==m-1 and j==n-1){
+            return grid[i][j];
+        }
+        if(i==m or j==n){
+            return INT_MAX;
+        }
+        if(a[i][j]!=-1){
+            return a[i][j];
+        }
+        int sum = grid[i][j]+min(helper(i+1,j,m,n,grid,a),helper(i,j+1,m,n,grid,a));
+        a[i][j] = sum;
+        return a[i][j];
+    }
+
+    int minPathSum(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        int** a = new int*[m];
+        for(int i=0;i<m;i++){
+            a[i] = new int[n];
+            for(int j=0;j<n;j++){
+                a[i][j] = -1;
+            }
+        }
+        return helper(0,0,m,n,grid,a);
+    }
+};

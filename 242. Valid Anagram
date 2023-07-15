@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if(s.length()!=t.length()){
+            return false;
+        }
+        unordered_map<char,int>p,q;
+        for(int i=0;i<s.length();i++){
+            p[s[i]]++;
+            q[t[i]]++;
+        }
+        for(int i=0;i<t.length();i++){
+            if(p[s[i]]!=q[s[i]]){
+                return false;
+            }
+        }
+        return true;
+    }
+};

@@ -1,0 +1,61 @@
+class Solution {
+public:
+
+    bool can_place(int i,int j,int n,char num,vector<vector<char>>board){
+        //ROW AND COL CHECK
+        for(int x=0;x<n;x++){
+            if(board[x][j]==num or board[i][x]==num){
+                return false;
+            }
+        }
+
+        //SUBGRID CHECK
+        int rn = sqrt(n);
+        int sx = (i/rn)*rn;
+        int sy = (j/rn)*rn;
+        for(int x=sx;x<sx+rn;x++){
+            for(int y=sy;y<sy+rn;y++){
+                if(board[x][y]==num){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    bool helper(int i,int j,int n,vector<vector<char>>& board){
+        //BASE CASE
+        if(i==n){
+            return true;
+        }
+
+        //CASE OF ROW END
+        if(j==n){
+            return helper(i+1,0,n,board);
+        }
+        if(board[i][j]!='.'){
+            return helper(i,j+1,n,board);
+        }
+
+        //REC CASE
+        for(char num='1';num<='9';num++){
+            if(can_place(i,j,n,num,board)){
+                board[i][j] = num;
+                bool can_solve_rest = helper(i,j+1,n,board);
+                if(can_solve_rest){
+                    return true;
+                }
+            }
+        }
+        board[i][j] = '.';
+        return false;
+
+
+    }
+
+    void solveSudoku(vector<vector<char>>& board) {
+        int n = board.size();
+        helper(0,0,n,board);
+        return;
+    }
+};

@@ -1,0 +1,83 @@
+class Solution {
+public:
+
+
+    bool isPossible(vector<vector<char>>board,int i,int j,int n){
+
+        for(int x=0;x<i;x++){
+            if(board[x][j]=='Q'){
+                return false;
+            }
+        }
+        int x = i;
+        int y = j;
+        //LEFT DIAGONAL CHECK
+        while(x>=0 and y>=0){
+            if(board[x][y]=='Q'){
+                return false;
+            }
+            x--;
+            y--;
+        }
+        x = i;
+        y = j;
+        //RIGHT DIAGONAL CHECK
+        while(x>=0 and y<n){
+            if(board[x][y]=='Q'){
+                return false;
+            }
+            x--;
+            y++;
+        }
+        return true;
+        
+    }
+
+    
+    void addsolu(vector<vector<char>>board,vector<vector<string>>&ans,int n){
+        vector<string>temp;
+        for(int i=0;i<n;i++){
+            string s;
+            for(int j=0;j<n;j++){
+                s.push_back(board[i][j]);
+            }
+            temp.push_back(s);
+        }
+        ans.push_back(temp);
+    }
+
+    bool solve(vector<vector<char>>board,vector<vector<string>>&ans,int n,int i){
+
+        if(i==n){
+            addsolu(board,ans,n);
+            return false;
+        }
+
+        for(int j=0;j<n;j++){
+            if(isPossible(board,i,j,n)){
+                board[i][j] = 'Q';
+                bool next_possible = solve(board,ans,n,i+1);
+                if(next_possible){
+                    return true;
+                }
+                board[i][j] = '.';
+            }
+        }
+        return false;
+
+
+
+
+
+    }
+
+
+
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>>ans;
+        vector<vector<char>> board(n, vector<char>(n, '.'));  
+        solve(board,ans,n,0);
+        return ans;
+
+    }
+};
